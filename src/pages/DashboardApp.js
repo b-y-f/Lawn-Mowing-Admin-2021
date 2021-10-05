@@ -2,7 +2,6 @@
 import { Grid, Container } from '@mui/material';
 import { useEffect, useState } from 'react';
 // components
-import { writeStorage } from '@rehooks/local-storage';
 import Page from '../components/Page';
 import {
   AppTotalQuotes,
@@ -39,12 +38,9 @@ export default function DashboardApp() {
   useEffect(() => {
     async function fetchData() {
       const resQuote = await quoteService.getAll();
-      setQuotes(resQuote);
       const resBooking = await bookingService.getAll();
+      setQuotes(resQuote);
       setBookings(resBooking);
-
-      writeStorage('bookings', resBooking);
-      writeStorage('quotes', resQuote);
     }
 
     fetchData();
