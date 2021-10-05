@@ -1,18 +1,15 @@
 // material
-import { Box, Grid, Container, Typography } from '@mui/material';
+import { Grid, Container } from '@mui/material';
+import { useEffect } from 'react';
 // components
 import Page from '../components/Page';
 import {
-  AppTasks,
-  AppNewUsers,
+  AppTotalQuotes,
   AppBugReports,
   AppItemOrders,
-  AppNewsUpdate,
-  AppWeeklySales,
-  AppOrderTimeline,
+  AppTotalBookings,
   AppCurrentVisits,
   AppWebsiteVisits,
-  AppTrafficBySite,
   AppCurrentSubject,
   AppConversionRates
 } from '../components/_dashboard/app';
@@ -20,18 +17,19 @@ import {
 // ----------------------------------------------------------------------
 
 export default function DashboardApp() {
+  useEffect(() => {}, []);
   return (
     <Page title="Dashboard | Minimal-UI">
       <Container maxWidth="xl">
-        <Box sx={{ pb: 5 }}>
+        {/* <Box sx={{ pb: 5 }}>
           <Typography variant="h4">Hi, Welcome back</Typography>
-        </Box>
+        </Box> */}
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6} md={3}>
-            <AppWeeklySales />
+            <AppTotalBookings />
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
-            <AppNewUsers />
+            <AppTotalQuotes />
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
             <AppItemOrders />
@@ -56,7 +54,7 @@ export default function DashboardApp() {
             <AppCurrentSubject />
           </Grid>
 
-          <Grid item xs={12} md={6} lg={8}>
+          {/* <Grid item xs={12} md={6} lg={8}>
             <AppNewsUpdate />
           </Grid>
 
@@ -70,7 +68,7 @@ export default function DashboardApp() {
 
           <Grid item xs={12} md={6} lg={8}>
             <AppTasks />
-          </Grid>
+          </Grid> */}
         </Grid>
       </Container>
     </Page>
