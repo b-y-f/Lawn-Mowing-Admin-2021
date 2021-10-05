@@ -1,5 +1,5 @@
 import { Icon } from '@iconify/react';
-import appleFilled from '@iconify/icons-ant-design/apple-filled';
+import appleFilled from '@iconify/icons-ant-design/profile-filled';
 // material
 import { alpha, styled } from '@mui/material/styles';
 import { Card, Typography } from '@mui/material';
@@ -34,17 +34,17 @@ const IconWrapperStyle = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-const TOTAL = 1352831;
-
-export default function AppTotalQuotes() {
+export default function AppTotalQuotes({ totalQuotes, unRepliedQuotesNumber }) {
   return (
     <RootStyle>
       <IconWrapperStyle>
         <Icon icon={appleFilled} width={24} height={24} />
       </IconWrapperStyle>
-      <Typography variant="h3">{fShortenNumber(TOTAL)}</Typography>
+      <Typography variant="h3">{`${fShortenNumber(
+        totalQuotes
+      )} / ${unRepliedQuotesNumber}`}</Typography>
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
-        Total Quotes
+        Total Quotes / Not Replied
       </Typography>
     </RootStyle>
   );

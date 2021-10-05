@@ -11,7 +11,7 @@ import { BaseOptionChart } from '../../charts';
 
 const CHART_DATA = [{ data: [400, 430, 448, 470, 540, 580, 690, 1100, 1200, 1380] }];
 
-export default function AppConversionRates() {
+export default function AppWorkerRates() {
   const chartOptions = merge(BaseOptionChart(), {
     tooltip: {
       marker: { show: false },
@@ -43,7 +43,7 @@ export default function AppConversionRates() {
 
   return (
     <Card>
-      <CardHeader title="Conversion Rates" subheader="(+43%) than last year" />
+      <CardHeader title="Worker's Rates" subheader="" />
       <Box sx={{ mx: 3 }} dir="ltr">
         <ReactApexChart type="bar" series={CHART_DATA} options={chartOptions} height={364} />
       </Box>
