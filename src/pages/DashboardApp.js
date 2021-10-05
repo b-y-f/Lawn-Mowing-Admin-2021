@@ -1,7 +1,8 @@
 // material
 import { Grid, Container } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 // components
+import { useLocalStorage } from '../utils/localStorage';
 import Page from '../components/Page';
 import {
   AppTotalQuotes,
@@ -22,8 +23,8 @@ import bookingService from '../services/bookings';
 
 export default function DashboardApp() {
   // states
-  const [quotes, setQuotes] = useState([]);
-  const [bookings, setBookings] = useState([]);
+  const [quotes, setQuotes] = useLocalStorage('quotes', []);
+  const [bookings, setBookings] = useLocalStorage('bookings', []);
 
   // statics
   const totalQuotes = quotes.length;
@@ -34,7 +35,7 @@ export default function DashboardApp() {
   // logs
   // console.log(averageRating);
   // console.log('unRepliedQuotesNumber', unRepliedQuotesNumber);
-  // TODO fetch bookings and quotes then render then out
+  // fetch bookings and quotes then render then out
   useEffect(() => {
     async function fetchData() {
       const resQuote = await quoteService.getAll();
@@ -43,8 +44,8 @@ export default function DashboardApp() {
       setBookings(resBooking);
     }
 
-    fetchData();
-  }, []);
+    return fetchData();
+  }, [setQuotes, setBookings]);
   return (
     <Page title="Lawn Mowing Dashboard">
       <Container maxWidth="xl">

@@ -9,7 +9,6 @@ import {
   Card,
   Table,
   Stack,
-  Avatar,
   Button,
   Checkbox,
   TableRow,
@@ -26,18 +25,18 @@ import Label from '../components/Label';
 import Scrollbar from '../components/Scrollbar';
 import SearchNotFound from '../components/SearchNotFound';
 import { UserListHead, UserListToolbar, UserMoreMenu } from '../components/_dashboard/user';
-//
-import USERLIST from '../_mocks_/user';
+import { getStorageValue } from '../utils/localStorage';
 
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
   { id: 'name', label: 'Name', alignRight: false },
-  { id: 'company', label: 'Company', alignRight: false },
-  { id: 'role', label: 'Role', alignRight: false },
-  { id: 'isVerified', label: 'Verified', alignRight: false },
-  { id: 'status', label: 'Status', alignRight: false },
-  { id: '' }
+  { id: 'location', label: 'Address', alignRight: false },
+  { id: 'date', label: 'Quote Date', alignRight: false },
+  { id: 'email', label: 'Email', alignRight: false },
+  { id: 'phone', label: 'Phone', alignRight: false },
+  { id: 'hasReplied', label: 'Replied', alignRight: false }
+  // { id: 'urgent', label: 'Urgent', alignRight: false }
 ];
 
 // ----------------------------------------------------------------------
@@ -71,7 +70,10 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-export default function User() {
+export default function Quotes() {
+  const quotes = getStorageValue('quotes');
+  console.log(quotes);
+
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState('asc');
   const [selected, setSelected] = useState([]);
@@ -87,7 +89,7 @@ export default function User() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = USERLIST.map((n) => n.name);
+      const newSelecteds = quotes.map((n) => n.name);
       setSelected(newSelecteds);
       return;
     }
@@ -125,9 +127,9 @@ export default function User() {
     setFilterName(event.target.value);
   };
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - USERLIST.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - quotes.length) : 0;
 
-  const filteredUsers = applySortFilter(USERLIST, getComparator(order, orderBy), filterName);
+  const filteredUsers = applySortFilter(quotes, getComparator(order, orderBy), filterName);
 
   const isUserNotFound = filteredUsers.length === 0;
 
@@ -136,7 +138,7 @@ export default function User() {
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            User
+            Quotes
           </Typography>
           <Button
             variant="contained"
@@ -144,7 +146,7 @@ export default function User() {
             to="#"
             startIcon={<Icon icon={plusFill} />}
           >
-            New User
+            Send Quote
           </Button>
         </Stack>
 
@@ -162,7 +164,7 @@ export default function User() {
                   order={order}
                   orderBy={orderBy}
                   headLabel={TABLE_HEAD}
-                  rowCount={USERLIST.length}
+                  rowCount={quotes.length}
                   numSelected={selected.length}
                   onRequestSort={handleRequestSort}
                   onSelectAllClick={handleSelectAllClick}
@@ -171,7 +173,7 @@ export default function User() {
                   {filteredUsers
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row) => {
-                      const { id, name, role, status, company, avatarUrl, isVerified } = row;
+                      const { id, name, location, date, email, phone, hasReplied } = row;
                       const isItemSelected = selected.indexOf(name) !== -1;
 
                       return (
@@ -191,21 +193,19 @@ export default function User() {
                           </TableCell>
                           <TableCell component="th" scope="row" padding="none">
                             <Stack direction="row" alignItems="center" spacing={2}>
-                              <Avatar alt={name} src={avatarUrl} />
                               <Typography variant="subtitle2" noWrap>
                                 {name}
                               </Typography>
                             </Stack>
                           </TableCell>
-                          <TableCell align="left">{company}</TableCell>
-                          <TableCell align="left">{role}</TableCell>
-                          <TableCell align="left">{isVerified ? 'Yes' : 'No'}</TableCell>
+                          <TableCell align="left">{location}</TableCell>
+                          <TableCell align="left">{date}</TableCell>
+                          <TableCell align="left">{email}</TableCell>
+                          <TableCell align="left">{phone}</TableCell>
+                          {/* <TableCell align="left">{hasReplied ? 'Yes' : 'No'}</TableCell> */}
                           <TableCell align="left">
-                            <Label
-                              variant="ghost"
-                              color={(status === 'banned' && 'error') || 'success'}
-                            >
-                              {sentenceCase(status)}
+                            <Label variant="ghost" color={hasReplied ? 'success' : 'error'}>
+                              {sentenceCase(hasReplied ? 'yes' : 'no')}
                             </Label>
                           </TableCell>
 
@@ -237,7 +237,7 @@ export default function User() {
           <TablePagination
             rowsPerPageOptions={[5, 10, 25]}
             component="div"
-            count={USERLIST.length}
+            count={quotes.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}

@@ -4,9 +4,9 @@ import DashboardLayout from './layouts/dashboard';
 import LogoOnlyLayout from './layouts/LogoOnlyLayout';
 //
 import DashboardApp from './pages/DashboardApp';
-import Products from './pages/Products';
-import Blog from './pages/Blog';
-import User from './pages/User';
+import Quotes from './pages/Quotes';
+// import Blog from './pages/Blog';
+import Booking from './pages/Bookings';
 import NotFound from './pages/Page404';
 
 // ----------------------------------------------------------------------
@@ -19,9 +19,9 @@ export default function Router() {
       children: [
         { element: <Navigate to="/dashboard/app" replace /> },
         { path: 'app', element: <DashboardApp /> },
-        { path: 'user', element: <User /> },
-        { path: 'products', element: <Products /> },
-        { path: 'blog', element: <Blog /> }
+        { path: 'bookings', element: <Booking /> },
+        { path: 'quotes', element: <Quotes /> }
+        // { path: 'blog', element: <Blog /> }
       ]
     },
     {

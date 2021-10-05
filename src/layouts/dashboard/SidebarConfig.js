@@ -1,7 +1,7 @@
 import { Icon } from '@iconify/react';
 import pieChart2Fill from '@iconify/icons-eva/pie-chart-2-fill';
 import peopleFill from '@iconify/icons-eva/people-fill';
-import shoppingBagFill from '@iconify/icons-eva/shopping-bag-fill';
+import fillTextFill from '@iconify/icons-eva/file-text-fill';
 // import fileTextFill from '@iconify/icons-eva/file-text-fill';
 // import lockFill from '@iconify/icons-eva/lock-fill';
 // import personAddFill from '@iconify/icons-eva/person-add-fill';
@@ -19,13 +19,13 @@ const sidebarConfig = [
   },
   {
     title: 'bookings',
-    path: '/dashboard/user',
+    path: '/dashboard/bookings',
     icon: getIcon(peopleFill)
   },
   {
     title: 'quotes',
-    path: '/dashboard/products',
-    icon: getIcon(shoppingBagFill)
+    path: '/dashboard/quotes',
+    icon: getIcon(fillTextFill)
   }
   // {
   //   title: 'blog',
