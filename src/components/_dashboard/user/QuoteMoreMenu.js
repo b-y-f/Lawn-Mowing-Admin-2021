@@ -1,17 +1,23 @@
 import { Icon } from '@iconify/react';
 import { useRef, useState } from 'react';
-import editFill from '@iconify/icons-eva/edit-fill';
-import { Link as RouterLink } from 'react-router-dom';
+import checkFill from '@iconify/icons-eva/checkmark-circle-2-fill';
+import copyFill from '@iconify/icons-eva/copy-fill';
+// import { Link as RouterLink } from 'react-router-dom';
 import trash2Outline from '@iconify/icons-eva/trash-2-outline';
 import moreVerticalFill from '@iconify/icons-eva/more-vertical-fill';
 // material
 import { Menu, MenuItem, IconButton, ListItemIcon, ListItemText } from '@mui/material';
-
 // ----------------------------------------------------------------------
 
-export default function UserMoreMenu() {
+export default function QuoteMoreMenu({ id, handleDelete, row, handleReply }) {
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
+
+  const handleCopy = () => {
+    // console.log('clicked');
+    navigator.clipboard.writeText(JSON.stringify(row, null, 2));
+    setIsOpen(false);
+  };
 
   return (
     <>
@@ -29,18 +35,25 @@ export default function UserMoreMenu() {
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
-        <MenuItem sx={{ color: 'text.secondary' }}>
+        <MenuItem sx={{ color: 'error.main' }} onClick={() => handleDelete(id)}>
           <ListItemIcon>
             <Icon icon={trash2Outline} width={24} height={24} />
           </ListItemIcon>
           <ListItemText primary="Delete" primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem>
 
-        <MenuItem component={RouterLink} to="#" sx={{ color: 'text.secondary' }}>
+        <MenuItem sx={{ color: 'text.secondary' }} onClick={handleCopy}>
           <ListItemIcon>
-            <Icon icon={editFill} width={24} height={24} />
+            <Icon icon={copyFill} width={24} height={24} />
           </ListItemIcon>
-          <ListItemText primary="Edit" primaryTypographyProps={{ variant: 'body2' }} />
+          <ListItemText primary="Copy" primaryTypographyProps={{ variant: 'body2' }} />
+        </MenuItem>
+
+        <MenuItem sx={{ color: 'success.main' }} onClick={() => handleReply(id)}>
+          <ListItemIcon>
+            <Icon icon={checkFill} width={24} height={24} />
+          </ListItemIcon>
+          <ListItemText primary="Replied" primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem>
       </Menu>
     </>

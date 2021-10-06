@@ -7,4 +7,14 @@ const getAll = async () => {
   return res.data;
 };
 
-export default { getAll };
+const remove = async (id) => {
+  const res = await axios.delete(`${baseUrl}/${id}`);
+  return res.data;
+};
+
+const updateReplyState = async (id, hasReplied) => {
+  const res = await axios.put(`${baseUrl}/${id}`, hasReplied);
+  return res.data;
+};
+
+export default { getAll, remove, updateReplyState };
