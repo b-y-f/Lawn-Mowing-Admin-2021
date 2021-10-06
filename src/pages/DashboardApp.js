@@ -1,3 +1,4 @@
+/* eslint-disable no-sequences */
 // material
 import { Grid, Container } from '@mui/material';
 import { useEffect } from 'react';
@@ -9,8 +10,8 @@ import {
   AppBugReports,
   AppAvgRating,
   AppTotalBookings,
-  AppCurrentVisits,
   AppWebsiteVisits,
+  AppQuoteRegions,
   AppCurrentSubject,
   AppWorkerRates
 } from '../components/_dashboard/app';
@@ -18,6 +19,7 @@ import {
 // service
 import quoteService from '../services/quotes';
 import bookingService from '../services/bookings';
+import { convertOccurrenceObjToArray } from '../utils/convertObjectToArray';
 
 // ----------------------------------------------------------------------
 
@@ -32,8 +34,23 @@ export default function DashboardApp() {
   const averageRating = bookings.reduce((acc, cur) => acc + cur.rating, 0) / totalBookings;
   const unRepliedQuotesNumber = quotes.filter((q) => !q.hasReplied).length;
 
+  // for regional pie chart
+  const regionOccurrences = quotes.reduce(
+    (prev, curr) => (
+      (prev[curr?.address_components?.at(-3)?.long_name] =
+        (prev[curr?.address_components?.at(-3)?.long_name] || 0) + 1),
+      prev
+    ),
+    {}
+  );
+
+  const top4Regions = convertOccurrenceObjToArray(regionOccurrences)
+    .sort((a, b) => b.number - a.number)
+    .slice(0, 4);
+
   // logs
-  // console.log(averageRating);
+  console.log('top4Regions', top4Regions);
+  // console.log(quotes[5].address_components.at(-3).long_name);
   // console.log('unRepliedQuotesNumber', unRepliedQuotesNumber);
   // fetch bookings and quotes then render then out
   useEffect(() => {
@@ -74,7 +91,7 @@ export default function DashboardApp() {
           </Grid>
 
           <Grid item xs={12} md={6} lg={4}>
-            <AppCurrentVisits />
+            <AppQuoteRegions top4Regions={top4Regions} />
           </Grid>
 
           <Grid item xs={12} md={6} lg={8}>

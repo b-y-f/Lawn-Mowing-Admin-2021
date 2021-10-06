@@ -1,7 +1,7 @@
 export { default as AppBugReports } from './AppBugReports';
 export { default as AppWorkerRates } from './AppWorkerRates';
 export { default as AppCurrentSubject } from './AppCurrentSubject';
-export { default as AppCurrentVisits } from './AppCurrentVisits';
+export { default as AppQuoteRegions } from './AppQuoteRegions';
 export { default as AppAvgRating } from './AppAvgRating';
 export { default as AppNewsUpdate } from './AppNewsUpdate';
 export { default as AppTotalQuotes } from './AppTotalQuotes';
