@@ -49,7 +49,7 @@ export default function DashboardApp() {
     .slice(0, 4);
 
   // logs
-  console.log('top4Regions', top4Regions);
+  // console.log('top4Regions', top4Regions);
   // console.log(quotes[5].address_components.at(-3).long_name);
   // console.log('unRepliedQuotesNumber', unRepliedQuotesNumber);
   // fetch bookings and quotes then render then out

@@ -7,4 +7,9 @@ const getAll = async () => {
   return res.data;
 };
 
-export default { getAll };
+const approveById = async (id) => {
+  const res = await axios.put(`${baseUrl}/${id}`, { status: 'approved' });
+  return res.data;
+};
+
+export default { getAll, approveById };
