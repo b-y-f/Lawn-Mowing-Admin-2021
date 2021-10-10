@@ -22,4 +22,10 @@ const completeById = async (id) => {
   return res.data;
 };
 
-export default { getAll, approveById, declineById, completeById };
+const assignWorker = async (id, worker) => {
+  const filteredWorker = worker.filter((w) => w !== undefined && w !== null);
+  const res = await axios.put(`${baseUrl}/${id}`, { worker: filteredWorker });
+  return res.data;
+};
+
+export default { getAll, approveById, declineById, completeById, assignWorker };

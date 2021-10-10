@@ -26,7 +26,12 @@ import Page from '../components/Page';
 import Label from '../components/Label';
 import Scrollbar from '../components/Scrollbar';
 import SearchNotFound from '../components/SearchNotFound';
-import { UserListHead, UserListToolbar, BookingMoreMenu } from '../components/_dashboard/user';
+import {
+  UserListHead,
+  UserListToolbar,
+  BookingMoreMenu,
+  SelectWorkerMenu
+} from '../components/_dashboard/user';
 import { getStorageValue } from '../utils/localStorage';
 // service
 import bookingService from '../services/bookings';
@@ -69,7 +74,11 @@ function applySortFilter(array, comparator, query) {
     return a[1] - b[1];
   });
   if (query) {
-    return filter(array, (_user) => _user.name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+    return filter(array, (booking) => {
+      const name = `${booking.user.firstName}${booking.user.lastName}`;
+      // console.log(booking.user);
+      return name.toLowerCase().indexOf(query.toLowerCase()) !== -1;
+    });
   }
   return stabilizedThis.map((el) => el[0]);
 }
@@ -291,7 +300,9 @@ export default function Bookings() {
                             </Label>
                           </TableCell>
                           {/* <TableCell align="left">{JSON.stringify(serviceItem)}</TableCell> */}
-                          <TableCell align="left">{worker}</TableCell>
+                          <TableCell align="left">
+                            <SelectWorkerMenu id={id} worker={worker} />
+                          </TableCell>
                           {/* <TableCell align="left">{garbageVolumn}</TableCell> */}
                           <TableCell align="right">
                             <BookingMoreMenu

@@ -38,13 +38,6 @@ export default function BookingMoreMenu({ id, handleApprove, handleDecline, hand
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
-        <MenuItem sx={{ color: 'error.main' }}>
-          <ListItemIcon>
-            <Icon icon={trash2Outline} width={24} height={24} />
-          </ListItemIcon>
-          <ListItemText primary="Delete" primaryTypographyProps={{ variant: 'body2' }} />
-        </MenuItem>
-
         <MenuItem sx={{ color: 'text.secondary' }}>
           <ListItemIcon>
             <Icon icon={copyFill} width={24} height={24} />
@@ -52,21 +45,39 @@ export default function BookingMoreMenu({ id, handleApprove, handleDecline, hand
           <ListItemText primary="Copy" primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem>
 
-        <MenuItem sx={{ color: 'success.main' }} onClick={() => handleApprove(id)}>
+        <MenuItem
+          sx={{ color: 'success.main' }}
+          onClick={() => {
+            handleApprove(id);
+            setIsOpen(false);
+          }}
+        >
           <ListItemIcon>
             <Icon icon={checkFill} width={24} height={24} />
           </ListItemIcon>
           <ListItemText primary="Approve" primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem>
 
-        <MenuItem sx={{ color: 'text.secondary' }} onClick={() => handleDecline(id)}>
+        <MenuItem
+          sx={{ color: 'error.main' }}
+          onClick={() => {
+            handleDecline(id);
+            setIsOpen(false);
+          }}
+        >
           <ListItemIcon>
             <Icon icon={declineFill} width={24} height={24} />
           </ListItemIcon>
           <ListItemText primary="Decline" primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem>
 
-        <MenuItem sx={{ color: 'info.main' }} onClick={() => handleComplete(id)}>
+        <MenuItem
+          sx={{ color: 'info.main' }}
+          onClick={() => {
+            handleComplete(id);
+            setIsOpen(false);
+          }}
+        >
           <ListItemIcon>
             <Icon icon={completeFill} width={24} height={24} />
           </ListItemIcon>

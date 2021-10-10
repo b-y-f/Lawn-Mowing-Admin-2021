@@ -11,9 +11,9 @@ import {
   AppAvgRating,
   AppTotalBookings,
   AppWebsiteVisits,
-  AppQuoteRegions,
-  AppCurrentSubject,
-  AppWorkerRates
+  AppQuoteRegions
+  // AppCurrentSubject,
+  // AppWorkerRates
 } from '../components/_dashboard/app';
 
 // service
@@ -100,13 +100,13 @@ export default function DashboardApp() {
             <AppQuoteRegions top4Regions={top4Regions} />
           </Grid>
 
-          <Grid item xs={12} md={6} lg={8}>
+          {/* <Grid item xs={12} md={6} lg={8}>
             <AppWorkerRates />
           </Grid>
 
           <Grid item xs={12} md={6} lg={4}>
             <AppCurrentSubject />
-          </Grid>
+          </Grid> */}
 
           {/* <Grid item xs={12} md={6} lg={8}>
             <AppNewsUpdate />
