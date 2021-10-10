@@ -150,15 +150,40 @@ export default function Bookings() {
   // };
 
   const handleApprove = (id) => {
-    console.log('id:', id);
+    // console.log('id:', id);
+    bookingService
+      .approveById(id)
+      .then(() => {
+        alert('approved!');
+        setBookings(bookings.map((b) => (b.id === id ? { ...b, status: 'approved' } : b)));
+      })
+      .catch((err) => {
+        console.log('approve failed! error:', err);
+      });
+  };
 
-    // bookingService
-    //   .updateReplyState(id, { hasReplied: true })
-    //   .then(() => {
-    //     console.log('good updated statue');
-    //     setBookings(bookings.map((q) => (q.id === id ? { ...q, hasReplied: true } : q)));
-    //   })
-    //   .catch((err) => console.log(err));
+  const handleDecline = (id) => {
+    bookingService
+      .declineById(id)
+      .then(() => {
+        alert('approved!');
+        setBookings(bookings.map((b) => (b.id === id ? { ...b, status: 'declined' } : b)));
+      })
+      .catch((err) => {
+        console.log('decline failed! error:', err);
+      });
+  };
+
+  const handleComplete = (id) => {
+    bookingService
+      .completeById(id)
+      .then(() => {
+        alert('complete set!');
+        setBookings(bookings.map((b) => (b.id === id ? { ...b, status: 'completed' } : b)));
+      })
+      .catch((err) => {
+        console.log('complete failed! error:', err);
+      });
   };
 
   const handleStatusColor = (status) => {
@@ -169,6 +194,8 @@ export default function Bookings() {
         return 'info';
       case 'declined':
         return 'warning';
+      case 'completed':
+        return 'secondary';
       default:
         return '';
     }
@@ -267,7 +294,12 @@ export default function Bookings() {
                           <TableCell align="left">{worker}</TableCell>
                           {/* <TableCell align="left">{garbageVolumn}</TableCell> */}
                           <TableCell align="right">
-                            <BookingMoreMenu handleApprove={handleApprove} id={id} />
+                            <BookingMoreMenu
+                              id={id}
+                              handleApprove={handleApprove}
+                              handleDecline={handleDecline}
+                              handleComplete={handleComplete}
+                            />
                           </TableCell>
                         </TableRow>
                       );

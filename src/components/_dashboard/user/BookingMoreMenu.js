@@ -12,15 +12,15 @@ import moreVerticalFill from '@iconify/icons-eva/more-vertical-fill';
 import { Menu, MenuItem, IconButton, ListItemIcon, ListItemText } from '@mui/material';
 // ----------------------------------------------------------------------
 
-export default function BookingMoreMenu({ row, id, handleApprove }) {
+export default function BookingMoreMenu({ id, handleApprove, handleDecline, handleComplete }) {
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleCopy = () => {
-    // console.log('clicked');
-    navigator.clipboard.writeText(JSON.stringify(row, null, 2));
-    setIsOpen(false);
-  };
+  // const handleCopy = () => {
+  //   // console.log('clicked');
+  //   navigator.clipboard.writeText(JSON.stringify(row, null, 2));
+  //   setIsOpen(false);
+  // };
 
   return (
     <>
@@ -45,7 +45,7 @@ export default function BookingMoreMenu({ row, id, handleApprove }) {
           <ListItemText primary="Delete" primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem>
 
-        <MenuItem sx={{ color: 'text.secondary' }} onClick={handleCopy}>
+        <MenuItem sx={{ color: 'text.secondary' }}>
           <ListItemIcon>
             <Icon icon={copyFill} width={24} height={24} />
           </ListItemIcon>
@@ -59,14 +59,14 @@ export default function BookingMoreMenu({ row, id, handleApprove }) {
           <ListItemText primary="Approve" primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem>
 
-        <MenuItem sx={{ color: 'text.secondary' }}>
+        <MenuItem sx={{ color: 'text.secondary' }} onClick={() => handleDecline(id)}>
           <ListItemIcon>
             <Icon icon={declineFill} width={24} height={24} />
           </ListItemIcon>
           <ListItemText primary="Decline" primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem>
 
-        <MenuItem sx={{ color: 'info.main' }}>
+        <MenuItem sx={{ color: 'info.main' }} onClick={() => handleComplete(id)}>
           <ListItemIcon>
             <Icon icon={completeFill} width={24} height={24} />
           </ListItemIcon>

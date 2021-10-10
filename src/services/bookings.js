@@ -12,4 +12,14 @@ const approveById = async (id) => {
   return res.data;
 };
 
-export default { getAll, approveById };
+const declineById = async (id) => {
+  const res = await axios.put(`${baseUrl}/${id}`, { status: 'declined' });
+  return res.data;
+};
+
+const completeById = async (id) => {
+  const res = await axios.put(`${baseUrl}/${id}`, { status: 'completed' });
+  return res.data;
+};
+
+export default { getAll, approveById, declineById, completeById };

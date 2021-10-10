@@ -33,6 +33,7 @@ export default function DashboardApp() {
   const totalBookings = bookings.length;
   const averageRating = bookings.reduce((acc, cur) => acc + cur.rating, 0) / totalBookings;
   const unRepliedQuotesNumber = quotes.filter((q) => !q.hasReplied).length;
+  const pendingBookings = bookings.filter((b) => b.status === 'pending').length;
 
   // for regional pie chart
   const regionOccurrences = quotes.reduce(
@@ -59,6 +60,11 @@ export default function DashboardApp() {
       const resBooking = await bookingService.getAll();
       setQuotes(resQuote);
       setBookings(resBooking);
+
+      return () => {
+        setQuotes({}); // unmount
+        setBookings({});
+      };
     }
 
     return fetchData();
@@ -71,7 +77,7 @@ export default function DashboardApp() {
         </Box> */}
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6} md={3}>
-            <AppTotalBookings totalBookings={totalBookings} />
+            <AppTotalBookings totalBookings={totalBookings} pendingBookings={pendingBookings} />
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
             <AppTotalQuotes
