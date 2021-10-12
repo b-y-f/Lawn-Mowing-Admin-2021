@@ -7,7 +7,7 @@ import { useLocalStorage } from '../utils/localStorage';
 import Page from '../components/Page';
 import {
   AppTotalQuotes,
-  AppBugReports,
+  AppTotalCompletedJob,
   AppAvgRating,
   AppTotalBookings,
   AppWebsiteVisits,
@@ -31,9 +31,18 @@ export default function DashboardApp() {
   // statics
   const totalQuotes = quotes.length;
   const totalBookings = bookings.length;
+  const totalCompletedJobCount = bookings.filter((b) => b.status === 'completed').length;
+
   const averageRating = bookings.reduce((acc, cur) => acc + cur.rating, 0) / totalBookings;
   const unRepliedQuotesNumber = quotes.filter((q) => !q.hasReplied).length;
   const pendingBookings = bookings.filter((b) => b.status === 'pending').length;
+
+  const pastYearMonthlyQuotes = new Array(12).fill(0);
+  quotes.forEach(({ date }) => (pastYearMonthlyQuotes[new Date(date).getMonth()] += 1));
+  // console.log(pastYearMonthlyQuotes);
+
+  const pastYearMonthlyBookings = new Array(12).fill(0);
+  bookings.forEach(({ created }) => (pastYearMonthlyBookings[new Date(created).getMonth()] += 1));
 
   // for regional pie chart
   const regionOccurrences = quotes.reduce(
@@ -89,11 +98,14 @@ export default function DashboardApp() {
             <AppAvgRating averageRating={averageRating} />
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
-            <AppBugReports />
+            <AppTotalCompletedJob totalCompletedJobCount={totalCompletedJobCount} />
           </Grid>
 
           <Grid item xs={12} md={6} lg={8}>
-            <AppWebsiteVisits />
+            <AppWebsiteVisits
+              pastYearMonthlyQuotes={pastYearMonthlyQuotes}
+              pastYearMonthlyBookings={pastYearMonthlyBookings}
+            />
           </Grid>
 
           <Grid item xs={12} md={6} lg={4}>

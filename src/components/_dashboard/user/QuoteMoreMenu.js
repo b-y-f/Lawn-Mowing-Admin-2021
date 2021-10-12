@@ -35,7 +35,13 @@ export default function QuoteMoreMenu({ id, handleDelete, row, handleReply }) {
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
-        <MenuItem sx={{ color: 'error.main' }} onClick={() => handleDelete(id)}>
+        <MenuItem
+          sx={{ color: 'error.main' }}
+          onClick={() => {
+            handleDelete(id);
+            setIsOpen(false);
+          }}
+        >
           <ListItemIcon>
             <Icon icon={trash2Outline} width={24} height={24} />
           </ListItemIcon>
@@ -49,7 +55,13 @@ export default function QuoteMoreMenu({ id, handleDelete, row, handleReply }) {
           <ListItemText primary="Copy" primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem>
 
-        <MenuItem sx={{ color: 'success.main' }} onClick={() => handleReply(id)}>
+        <MenuItem
+          sx={{ color: 'success.main' }}
+          onClick={() => {
+            handleReply(id);
+            setIsOpen(false);
+          }}
+        >
           <ListItemIcon>
             <Icon icon={checkFill} width={24} height={24} />
           </ListItemIcon>

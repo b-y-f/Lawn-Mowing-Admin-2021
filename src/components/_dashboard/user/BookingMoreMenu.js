@@ -4,23 +4,23 @@ import checkFill from '@iconify/icons-eva/checkmark-circle-2-fill';
 import declineFill from '@iconify/icons-eva/close-square-fill';
 import copyFill from '@iconify/icons-eva/copy-fill';
 import completeFill from '@iconify/icons-eva/person-done-fill';
+import infoFill from '@iconify/icons-eva/info-fill';
 
 // import { Link as RouterLink } from 'react-router-dom';
-import trash2Outline from '@iconify/icons-eva/trash-2-outline';
 import moreVerticalFill from '@iconify/icons-eva/more-vertical-fill';
 // material
 import { Menu, MenuItem, IconButton, ListItemIcon, ListItemText } from '@mui/material';
 // ----------------------------------------------------------------------
 
-export default function BookingMoreMenu({ id, handleApprove, handleDecline, handleComplete }) {
+export default function BookingMoreMenu({
+  id,
+  handleApprove,
+  handleDecline,
+  handleComplete,
+  handleBookingDetail
+}) {
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
-
-  // const handleCopy = () => {
-  //   // console.log('clicked');
-  //   navigator.clipboard.writeText(JSON.stringify(row, null, 2));
-  //   setIsOpen(false);
-  // };
 
   return (
     <>
@@ -82,6 +82,20 @@ export default function BookingMoreMenu({ id, handleApprove, handleDecline, hand
             <Icon icon={completeFill} width={24} height={24} />
           </ListItemIcon>
           <ListItemText primary="Complete" primaryTypographyProps={{ variant: 'body2' }} />
+        </MenuItem>
+
+        <MenuItem
+          sx={{ color: 'info.primary' }}
+          onClick={() => {
+            // alert('clicked');
+            handleBookingDetail(id);
+            setIsOpen(false);
+          }}
+        >
+          <ListItemIcon>
+            <Icon icon={infoFill} width={24} height={24} />
+          </ListItemIcon>
+          <ListItemText primary="Details" primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem>
       </Menu>
     </>

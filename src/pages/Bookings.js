@@ -18,7 +18,14 @@ import {
   Typography,
   TableContainer,
   TablePagination,
-  Avatar
+  Avatar,
+  Snackbar,
+  Alert,
+  Dialog,
+  DialogTitle,
+  List,
+  ListItem,
+  ListItemText
 } from '@mui/material';
 // components
 import { format } from 'date-fns';
@@ -93,6 +100,10 @@ export default function Bookings() {
   const [orderBy, setOrderBy] = useState('date');
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  // set notice message
+  const [notice, setNotice] = useState({ open: false, message: '', type: '' });
+  // set service detail dialog
+  const [openServiceDetail, setOpenServiceDetail] = useState({ open: false, data: null });
 
   useEffect(() => {
     setBookings(getStorageValue('bookings'));
@@ -146,6 +157,7 @@ export default function Bookings() {
     setFilterName(event.target.value);
   };
 
+  // delete is not needed since booking can only delete by client
   // const handleDelete = (id) => {
   //   quoteService
   //     .remove(id)
@@ -157,16 +169,23 @@ export default function Bookings() {
   //       console.log(err);
   //     });
   // };
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setNotice({ ...notice, open: false });
+  };
 
   const handleApprove = (id) => {
     // console.log('id:', id);
     bookingService
       .approveById(id)
       .then(() => {
-        alert('approved!');
+        setNotice({ open: true, type: 'success', message: 'This booking has been set approved!' });
         setBookings(bookings.map((b) => (b.id === id ? { ...b, status: 'approved' } : b)));
       })
       .catch((err) => {
+        setNotice({ open: true, type: 'error', message: 'approve failed!' });
         console.log('approve failed! error:', err);
       });
   };
@@ -175,7 +194,7 @@ export default function Bookings() {
     bookingService
       .declineById(id)
       .then(() => {
-        alert('approved!');
+        setNotice({ open: true, type: 'success', message: 'This booking has been set declined!' });
         setBookings(bookings.map((b) => (b.id === id ? { ...b, status: 'declined' } : b)));
       })
       .catch((err) => {
@@ -187,12 +206,19 @@ export default function Bookings() {
     bookingService
       .completeById(id)
       .then(() => {
-        alert('complete set!');
+        setNotice({ open: true, type: 'success', message: 'This booking has been set completed!' });
         setBookings(bookings.map((b) => (b.id === id ? { ...b, status: 'completed' } : b)));
       })
       .catch((err) => {
         console.log('complete failed! error:', err);
       });
+  };
+
+  const handleBookingDetail = (id) => {
+    const booking = bookings.find((booking) => booking.id === id);
+    console.log('booking', booking, id);
+    const services = booking.serviceItem;
+    setOpenServiceDetail({ open: true, services, note: booking.bookingNote });
   };
 
   const handleStatusColor = (status) => {
@@ -310,6 +336,7 @@ export default function Bookings() {
                               handleApprove={handleApprove}
                               handleDecline={handleDecline}
                               handleComplete={handleComplete}
+                              handleBookingDetail={handleBookingDetail}
                             />
                           </TableCell>
                         </TableRow>
@@ -345,6 +372,29 @@ export default function Bookings() {
           />
         </Card>
       </Container>
+
+      <Snackbar open={notice.open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity={notice.type || 'error'} sx={{ width: '100%' }}>
+          {notice.message}
+        </Alert>
+      </Snackbar>
+
+      <Dialog
+        onClose={() => setOpenServiceDetail({ open: false, data: null, note: null })}
+        open={openServiceDetail.open}
+      >
+        <DialogTitle>Service Notes</DialogTitle>
+        <List sx={{ minWidth: 320, width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+          {openServiceDetail?.services?.map(({ item, serviceComment, _id }) => (
+            <ListItem key={_id} button>
+              <ListItemText primary={serviceComment} secondary={item} />
+            </ListItem>
+          ))}
+          <ListItem>
+            <ListItemText primary={openServiceDetail?.note} secondary="Overall note" />
+          </ListItem>
+        </List>
+      </Dialog>
     </Page>
   );
 }

@@ -1,4 +1,4 @@
-export { default as AppBugReports } from './AppBugReports';
+export { default as AppTotalCompletedJob } from './AppTotalCompletedJob';
 export { default as AppWorkerRates } from './AppWorkerRates';
 export { default as AppCurrentSubject } from './AppCurrentSubject';
 export { default as AppQuoteRegions } from './AppQuoteRegions';

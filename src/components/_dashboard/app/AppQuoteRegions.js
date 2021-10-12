@@ -61,7 +61,7 @@ export default function AppCurrentVisits({ top4Regions }) {
 
   return (
     <Card>
-      <CardHeader title="Quote Locations" />
+      <CardHeader title="Location Distribution" subheader="For Quotes" />
       <ChartWrapperStyle dir="ltr">
         <ReactApexChart
           type="pie"

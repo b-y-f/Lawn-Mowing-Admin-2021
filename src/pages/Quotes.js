@@ -17,7 +17,9 @@ import {
   Container,
   Typography,
   TableContainer,
-  TablePagination
+  TablePagination,
+  Snackbar,
+  Alert
 } from '@mui/material';
 // components
 import { format } from 'date-fns';
@@ -85,9 +87,18 @@ export default function Quotes() {
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
+  const [notice, setNotice] = useState({ open: false, message: '', type: '' });
+
   useEffect(() => {
     setQuotes(getStorageValue('quotes'));
   }, []);
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setNotice({ ...notice, open: false });
+  };
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -141,7 +152,7 @@ export default function Quotes() {
     quoteService
       .remove(id)
       .then(() => {
-        alert('delete quote ok!');
+        setNotice({ open: true, type: 'success', message: 'Delete quote ok!' });
         setQuotes(quotes.filter((q) => q.id !== id));
       })
       .catch((err) => {
@@ -296,6 +307,11 @@ export default function Quotes() {
           />
         </Card>
       </Container>
+      <Snackbar open={notice.open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity={notice.type || 'error'} sx={{ width: '100%' }}>
+          {notice.message}
+        </Alert>
+      </Snackbar>
     </Page>
   );
 }
